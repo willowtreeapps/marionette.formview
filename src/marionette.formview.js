@@ -41,7 +41,7 @@
 
       //Attach Events to preexisting elements if we don't have a template
       if (!this.template) this.runInitializers();
-      this.on('item:rendered',this.runInitializers, this);
+      this.on('render', this.runInitializers, this);
     },
 
     changeFieldVal : function(model, fields) {
