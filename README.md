@@ -61,13 +61,15 @@ var LoginFormView = Marionette.FormView.extend({
 
 ### Dependencies
 
-- Marionette - v1.0.0-beta4
+- Marionette - v2.0.0
 
 ## Contributing
 In lieu of a formal styleguide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint and test your code using grunt.
 
 ## Release History
 
+- 1.0.3 Exposed FormValidator Hash, for easier rule sharing.
+- 1.0.2 Updated for Marionette v2.0.0
 - 1.0.1 Fixed issue with calling model.clear()
 - 1.0.0 Fixed bindTo -> listenTo Backbone/Marionette Deprecation
 - 0.2.2 Fixed issue with empty fields object
