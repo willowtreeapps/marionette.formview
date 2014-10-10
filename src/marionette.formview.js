@@ -118,6 +118,10 @@
       window.sessionStorage.setItem(this.className, JSON.stringify(persistentData));
     },
 
+    removePersistedData: function() {
+      window.sessionStorage.removeItem(this.className);
+    },
+
     validate : function () {
       var errors = {},
         fields = _(this.fields).keys();
