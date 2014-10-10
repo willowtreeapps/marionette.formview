@@ -37,6 +37,12 @@
       if (!this.model) this.model = new Backbone.Model();
 
       this.listenTo(this.model, 'change', this.changeFieldVal,this);
+
+      if (this.persistsData) {
+        var previousData = JSON.parse(window.sessionStorage.getItem(this.className));
+        this.data = _.extend(previousData, this.data)
+      }
+
       if (this.data) this.model.set(this.data);
 
       //Attach Events to preexisting elements if we don't have a template
@@ -64,12 +70,14 @@
       },this);
     },
 
-    serializeFormData : function () {
+    serializeFormData : function (cond) {
       var data = {}, self = this;
 
       _(this.fields).each(function(options, field){
-        data[field] = self.inputVal(field);
-      });
+          if (!cond || cond(self.fields[field])) {
+            data[field] = self.inputVal(field);
+          }
+        });
 
       return data;
     },
@@ -88,6 +96,7 @@
 
     onFieldEvent : function(evt) {
       this.handleFieldEvent(evt, evt.type);
+      if (this.persistsData) this.persistData();
     },
 
     handleFieldEvent : function(evt, eventName) {
@@ -99,6 +108,18 @@
         var errors = this.validateField(field);
         if (!_.isEmpty(errors) && _.isFunction(this.onValidationFail)) this.onValidationFail(errors);
       }
+    },
+
+    persistData: function () {
+      var persistentData = this.serializeFormData(function (field) {
+        return !!field.persist;
+      });
+
+      window.sessionStorage.setItem(this.className, JSON.stringify(persistentData));
+    },
+
+    removePersistedData: function() {
+      window.sessionStorage.removeItem(this.className);
     },
 
     validate : function () {
